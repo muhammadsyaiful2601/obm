@@ -22,28 +22,6 @@
     @include('layout.header')
     @include('layout.sidebar')
 
-    {{-- <div class="main-sidebar sidebar-style-2">
-        <aside id="sidebar-wrapper">
-            <div class="sidebar-brand">
-                <a href="{{ url('/') }}">Muhammad Syaiful</a>
-            </div>
-            <div class="sidebar-brand sidebar-brand-sm">
-                <a href="{{ url('/') }}">MS</a>
-            </div>
-            <ul class="sidebar-menu">
-                <li class="menu-header">Pages</li>
-                <li class="dropdown active">
-                    <a href="#" class="nav-link has-dropdown"><i class="fas fa-film"></i><span>Movies</span></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="nav-link" href="{{ url('dashboard') }}">Search Movies</a></li>
-                        <li class="active"><a class="nav-link" href="{{ url('favorite') }}">My Favorites</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </aside>
-    </div> --}}
-
     <div class="main-content">
         <section class="section">
             <div class="section-header">
@@ -80,37 +58,7 @@
         </section>
     </div>
     @include('layout.footer')
-
-    {{-- <footer class="main-footer">
-        <div class="footer-left">
-            Copyright &copy; <span id="years"></span>
-            <div class="bullet"></div> Muhammad Syaiful
-        </div>
-        <div class="footer-right">
-            D3 Sistem Informasi
-        </div>
-    </footer> --}}
-    </div>
-    </div>
-
-    <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/modules/popper.js') }}"></script>
-    <script src="{{ asset('assets/modules/tooltip.js') }}"></script>
-    <script src="{{ asset('assets/modules/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/modules/nicescroll/jquery.nicescroll.min.js') }}"></script>
-    <script src="{{ asset('assets/modules/moment.min.js') }}"></script>
-    <script src="{{ asset('assets/js/stisla.js') }}"></script>
-
-    <script src="{{ asset('assets/modules/owlcarousel2/dist/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('assets/modules/summernote/summernote-bs4.js') }}"></script>
-    <script src="{{ asset('assets/modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
-
-    <script src="{{ asset('assets/js/scripts.js') }}"></script>
-    <script src="{{ asset('assets/js/custom.js') }}"></script>
-    <script>
-        // Set current year in footer
-        document.getElementById('years').textContent = new Date().getFullYear();
-    </script>
 </body>
+
 
 </html>

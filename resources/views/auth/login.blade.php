@@ -55,7 +55,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <a href="{{ url('/dashboard') }}" class="btn btn-primary btn-lg btn-block"
+                                        <a href="{{ url('/masuk') }}" class="btn btn-primary btn-lg btn-block"
                                             tabindex="4">
                                             Login
                                         </a>

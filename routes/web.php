@@ -10,13 +10,13 @@ Route::get('/register', function () {
     return view('auth.register');
 });
 
-Route::get('/dashboard', function () {
-    return view('auth.dashboard');
+Route::get('/masuk', function () {
+    return view('controll panel.movie');
 });
 Route::get('/favorite', function () {
-    return view('auth.favorite');
+    return view('controll panel.favorite');
 });
 
-Route::get('/logout', function () {
+Route::get('/keluar', function () {
     return view('auth.login');
 });

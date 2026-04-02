@@ -19,8 +19,8 @@
 </head>
 
 <body>
-    @include('tambahan.header')
-    @include('tambahan.sidebar')
+    @include('layout.header')
+    @include('layout.sidebar')
 
     <div class="main-content">
         <section class="section">
@@ -93,30 +93,7 @@
             </div>
         </section>
     </div>
-    @include('tambahan.footer')
-
-    </div>
-    </div>
-
-    <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/modules/popper.js') }}"></script>
-    <script src="{{ asset('assets/modules/tooltip.js') }}"></script>
-    <script src="{{ asset('assets/modules/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/modules/nicescroll/jquery.nicescroll.min.js') }}"></script>
-    <script src="{{ asset('assets/modules/moment.min.js') }}"></script>
-    <script src="{{ asset('assets/js/stisla.js') }}"></script>
-
-    <script src="{{ asset('assets/modules/owlcarousel2/dist/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('assets/modules/summernote/summernote-bs4.js') }}"></script>
-    <script src="{{ asset('assets/modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
-
-    <script src="{{ asset('assets/js/scripts.js') }}"></script>
-    <script src="{{ asset('assets/js/custom.js') }}"></script>
-    <script>
-        // Set current year in footer
-        document.getElementById('years').textContent = new Date().getFullYear();
-    </script>
-
+    @include('layout.footer')
 </body>
 
 </html>
