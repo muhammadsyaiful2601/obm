@@ -19,155 +19,83 @@
 </head>
 
 <body>
-    <div id="app">
-        <div class="main-wrapper main-wrapper-1">
-            <div class="navbar-bg"></div>
+    @include('tambahan.header')
+    @include('tambahan.sidebar')
 
-            <nav class="navbar navbar-expand-lg main-navbar">
-                <form class="form-inline mr-auto">
-                    <ul class="navbar-nav mr-3">
-                        <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i
-                                    class="fas fa-bars"></i></a></li>
-                    </ul>
-                </form>
-                <ul class="navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" data-toggle="dropdown"
-                            class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <div class="d-sm-none d-lg-inline-block"><i class="fas fa-globe"></i>
-                                EN</div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a href="#" class="dropdown-item has-icon text-primary"><i
-                                    class="fas fa-check-circle"></i> English</a>
-                            <a href="#" class="dropdown-item has-icon"><i class="fas fa-check-circle"></i> Bahasa
-                                Indonesia</a>
-                        </div>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" data-toggle="dropdown"
-                            class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image"
-                                src="https://omdb-app-master-mx2c8l.laravel.cloud/assets/img/avatar/avatar-1.png"
-                                class="rounded-circle mr-1">
-                            <div class="d-sm-none d-lg-inline-block">Hi, Muhammad Syaiful</div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <div class="dropdown-divider"></div>
-                            <a href="{{ url('/logout') }}" class="dropdown-item has-icon text-danger">
-                                <i class="fas fa-sign-out-alt"></i> Logout
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-
-            <div class="main-sidebar sidebar-style-2">
-                <aside id="sidebar-wrapper">
-                    <div class="sidebar-brand">
-                        <a href="{{ url('/') }}">Muhammad Syaiful</a>
+    <div class="main-content">
+        <section class="section">
+            <div class="section-header">
+                <h1>Movies</h1>
+                <div class="section-header-breadcrumb">
+                    <div class="breadcrumb-item active"><a href="#">Dashboard</a>
                     </div>
-                    <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="{{ url('/') }}">MS</a>
-                    </div>
-                    <ul class="sidebar-menu">
-                        <li class="menu-header">Pages</li>
-                        <li class="dropdown active">
-                            <a href="#" class="nav-link has-dropdown"><i
-                                    class="fas fa-film"></i><span>Movies</span></a>
-                            <ul class="dropdown-menu">
-                                <li class="active"><a class="nav-link" href="{{ url('dashboard') }}">Search Movies</a>
-                                </li>
-                                <li><a class="nav-link" href="{{ url('favorite') }}">My Favorites</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </aside>
+                    <div class="breadcrumb-item">Movies</div>
+                    <div class="breadcrumb-item">All Movies</div>
+                </div>
             </div>
 
-            <div class="main-content">
-                <section class="section">
-                    <div class="section-header">
-                        <h1>Movies</h1>
-                        <div class="section-header-breadcrumb">
-                            <div class="breadcrumb-item active"><a href="#">Dashboard</a>
+            <div class="section-body">
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>All Movies</h4>
                             </div>
-                            <div class="breadcrumb-item">Movies</div>
-                            <div class="breadcrumb-item">All Movies</div>
-                        </div>
-                    </div>
-
-                    <div class="section-body">
-                        <div class="row mt-4">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4>All Movies</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="float-right">
-                                            <form method="GET" action="" id="search-form">
-                                                <div class="input-group">
-                                                    <input type="text" name="q" id="search-input"
-                                                        class="form-control" placeholder="Search movies..."
-                                                        value="{{ request('q') }}">
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-primary" type="submit">
-                                                            <i class="fas fa-search"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                        <div class="clearfix mb-3"></div>
-                                        <div class="table-responsive">
-                                            <table class="table table-striped" id="movie-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Poster</th>
-                                                        <th>Title</th>
-                                                        <th>Year</th>
-                                                        <th>Type</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="movie-container">
-                                                    <tr id="empty-row">
-                                                        <td colspan="5" class="text-center py-5">
-                                                            <i class="fas fa-search fa-3x text-muted mb-3 d-block"></i>
-                                                            <span class="text-muted">Enter a keyword to search
-                                                                movies.</span>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-
-                                        <div id="loader" class="text-center py-3" style="display: none;">
-                                            <div class="spinner-border text-primary" role="status">
-                                                <span class="sr-only">Loading...</span>
+                            <div class="card-body">
+                                <div class="float-right">
+                                    <form method="GET" action="" id="search-form">
+                                        <div class="input-group">
+                                            <input type="text" name="q" id="search-input" class="form-control"
+                                                placeholder="Search movies..." value="{{ request('q') }}">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="submit">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
                                             </div>
-                                            <p class="text-muted mt-2">Loading more movies...</p>
                                         </div>
+                                    </form>
+                                </div>
+
+                                <div class="clearfix mb-3"></div>
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="movie-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Poster</th>
+                                                <th>Title</th>
+                                                <th>Year</th>
+                                                <th>Type</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="movie-container">
+                                            <tr id="empty-row">
+                                                <td colspan="5" class="text-center py-5">
+                                                    <i class="fas fa-search fa-3x text-muted mb-3 d-block"></i>
+                                                    <span class="text-muted">Enter a keyword to search
+                                                        movies.</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div id="loader" class="text-center py-3" style="display: none;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="sr-only">Loading...</span>
                                     </div>
+                                    <p class="text-muted mt-2">Loading more movies...</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
+        </section>
+    </div>
+    @include('tambahan.footer')
 
-            <footer class="main-footer">
-                <div class="footer-left">
-                    Copyright &copy; <span id="years"></span>
-                    <div class="bullet"></div> Muhammad Syaiful
-                </div>
-                <div class="footer-right">
-                    D3 Sistem Informasi
-                </div>
-            </footer>
-        </div>
+    </div>
     </div>
 
     <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
