@@ -45,7 +45,7 @@
                                         <i class="fas fa-heart-broken fa-3x text-muted mb-3 d-block"></i>
                                         <h5 class="text-muted">No favorites yet</h5>
                                         <p class="text-muted">Start adding movies to your favorites list!</p>
-                                        <a href="{{ url('dashboard') }}" class="btn btn-primary mt-2">
+                                        <a href="{{ url('masuk') }}" class="btn btn-primary mt-2">
                                             <i class="fas fa-search"></i> Search Movies
                                         </a>
                                     </div>

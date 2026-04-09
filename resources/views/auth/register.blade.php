@@ -90,6 +90,10 @@
                                         <button type="submit" class="btn btn-primary btn-lg btn-block">
                                             Register
                                         </button>
+                                        <button type="button" class="btn btn-secondary btn-lg btn-block"
+                                            onclick="window.location.href='{{ url('/') }}'">
+                                            Login
+                                        </button>
                                     </div>
                                 </form>
                             </div>
