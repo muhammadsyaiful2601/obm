@@ -6,29 +6,13 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>Register &mdash; OMDB</title>
 
-    <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/modules/fontawesome/css/all.min.css') }}">
 
-    <!-- CSS Libraries -->
     <link rel="stylesheet" href="{{ asset('assets/modules/jquery-selectric/selectric.css') }}">
 
-    <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
-    <!-- Start GA -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag('js', new Date());
-
-        gtag('config', 'UA-94034622-3');
-    </script>
-    <!-- /END GA -->
 </head>
 
 <body>
@@ -49,40 +33,65 @@
                             </div>
 
                             <div class="card-body">
-                                <form method="POST">
-                                    <div class="row">
-                                        <div class="form-group col-12">
-                                            <label for="frist_name">Full Name</label>
-                                            <input id="frist_name" type="text" class="form-control" name="frist_name"
-                                                autofocus>
+                                @if (session('success'))
+                                    <div class="alert alert-success alert-dismissible show fade">
+                                        <div class="alert-body">
+                                            <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                                            {{ session('success') }}
                                         </div>
-                                        {{-- <div class="form-group col-6">
-                                            <label for="last_name">Last Name</label>
-                                            <input id="last_name" type="text" class="form-control" name="last_name">
-                                        </div> --}}
+                                    </div>
+                                @endif
+
+                                @if (session('error'))
+                                    <div class="alert alert-danger alert-dismissible show fade">
+                                        <div class="alert-body">
+                                            <button class="close" data-dismiss="alert"><span>&times;</span></button>
+                                            {{ session('error') }}
+                                        </div>
+                                    </div>
+                                @endif
+
+                                <form method="POST" action="{{ route('register.process') }}">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="full_name">Full Name</label>
+                                        <input id="full_name" type="text"
+                                            class="form-control @error('name') is-invalid @enderror" name="name"
+                                            value="{{ old('name') }}" autofocus>
+                                        @error('name')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input id="email" type="email" class="form-control" name="email">
-                                        <div class="invalid-feedback">
-                                        </div>
+                                        <input id="email" type="email"
+                                            class="form-control @error('email') is-invalid @enderror" name="email"
+                                            value="{{ old('email') }}">
+                                        @error('email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                     <div class="row">
                                         <div class="form-group col-6">
                                             <label for="password" class="d-block">Password</label>
-                                            <input id="password" type="password" class="form-control pwstrength"
+                                            <input id="password" type="password"
+                                                class="form-control pwstrength @error('password') is-invalid @enderror"
                                                 data-indicator="pwindicator" name="password">
                                             <div id="pwindicator" class="pwindicator">
                                                 <div class="bar"></div>
                                                 <div class="label"></div>
                                             </div>
+                                            @error('password')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
                                         </div>
                                         <div class="form-group col-6">
-                                            <label for="password2" class="d-block">Password Confirmation</label>
-                                            <input id="password2" type="password" class="form-control"
-                                                name="password-confirm">
+                                            <label for="password_confirmation" class="d-block">Password
+                                                Confirmation</label>
+                                            <input id="password_confirmation" type="password" class="form-control"
+                                                name="password_confirmation">
                                         </div>
                                     </div>
 
@@ -90,11 +99,12 @@
                                         <button type="submit" class="btn btn-primary btn-lg btn-block">
                                             Register
                                         </button>
-                                        <div class="mt-5 text-muted text-center">
-                                            all ready have an account? <a href="{{ url('/login') }}">Login</a>
-                                        </div>
                                     </div>
                                 </form>
+
+                                <div class="mt-5 text-muted text-center">
+                                    Already have an account? <a href="{{ route('login') }}">Login</a>
+                                </div>
                             </div>
                         </div>
                         <div class="simple-footer">
@@ -106,7 +116,6 @@
         </section>
     </div>
 
-    <!-- General JS Scripts -->
     <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/modules/popper.js') }}"></script>
     <script src="{{ asset('assets/modules/tooltip.js') }}"></script>
@@ -115,14 +124,11 @@
     <script src="{{ asset('assets/modules/moment.min.js') }}"></script>
     <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
-    <!-- JS Libraies -->
     <script src="{{ asset('assets/modules/jquery-pwstrength/jquery.pwstrength.min.js') }}"></script>
     <script src="{{ asset('assets/modules/jquery-selectric/jquery.selectric.min.js') }}"></script>
 
-    <!-- Page Specific JS File -->
     <script src="{{ asset('assets/js/page/auth-register.js') }}"></script>
 
-    <!-- Template JS File -->
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
     <script>
