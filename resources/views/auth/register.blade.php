@@ -90,10 +90,9 @@
                                         <button type="submit" class="btn btn-primary btn-lg btn-block">
                                             Register
                                         </button>
-                                        <button type="button" class="btn btn-secondary btn-lg btn-block"
-                                            onclick="window.location.href='{{ url('/') }}'">
-                                            Login
-                                        </button>
+                                        <div class="mt-5 text-muted text-center">
+                                            all ready have an account? <a href="{{ url('/login') }}">Login</a>
+                                        </div>
                                     </div>
                                 </form>
                             </div>

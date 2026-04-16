@@ -1,14 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
-Route::get('/', function () {
-    return view('auth.login');
-});
-
-Route::get('/register', function () {
-    return view('auth.register');
-});
+Route::get('/', [AuthController::class, 'index']);
+Route::get('/register', [AuthController::class, 'register']);
 
 Route::get('/masuk', function () {
     return view('controll panel.movie');
