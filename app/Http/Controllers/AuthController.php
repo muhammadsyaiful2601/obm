@@ -79,7 +79,7 @@ class AuthController extends Controller
             if (!$response) {
                 return redirect()->back()->with('error', 'Kredensial tidak valid!');
             }
-            return redirect('/panel-control')->with('success', 'Login berhasil');
+            return redirect('/masuk')->with('success', 'Login berhasil');
         } catch (\Throwable $th) {
             Log::error([
                 'line'      => $th->getLine(),

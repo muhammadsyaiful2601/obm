@@ -6,11 +6,14 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>Login &mdash; OMDB</title>
 
+    <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/modules/fontawesome/css/all.min.css') }}">
 
+    <!-- CSS Libraries -->
     <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap-social/bootstrap-social.css') }}">
 
+    <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
 </head>
@@ -33,41 +36,41 @@
                             </div>
 
                             <div class="card-body">
-                                <form method="POST" action="#" class="needs-validation" novalidate="">
-                                    @csrf <div class="form-group">
+                                <form method="POST" action="{{ route('signin') }}" class="needs-validation"
+                                    novalidate="">
+                                    @csrf
+                                    <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input id="email" type="email" class="form-control" name="email"
-                                            tabindex="1" required autofocus>
-                                        <div class="invalid-feedback">
-                                            Please fill in your email
-                                        </div>
+                                        <input type="email" class="form-control" name="email" tabindex="1">
+                                        @error('email')
+                                            <span class="text-sm text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group">
                                         <div class="d-block">
                                             <label for="password" class="control-label">Password</label>
                                         </div>
-                                        <input id="password" type="password" class="form-control" name="password"
-                                            tabindex="2" required>
-                                        <div class="invalid-feedback">
-                                            Please fill in your password
-                                        </div>
+                                        <input type="password" class="form-control" name="password" tabindex="2">
+                                        @error('password')
+                                            <span class="text-sm text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group">
-                                        <a href="{{ url('/masuk') }}" class="btn btn-primary btn-lg btn-block"
-                                            tabindex="4">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
                                             Login
-                                        </a>
+                                        </button>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
                         <div class="mt-5 text-muted text-center">
                             Don't have an account? <a href="{{ url('/register') }}">Create One</a>
                         </div>
                         <div class="simple-footer">
-                            Copyright &copy; <span id="years"></span>
+                            Copyright &copy; <span id="year"></span>
                         </div>
                     </div>
                 </div>
@@ -75,6 +78,7 @@
         </section>
     </div>
 
+    <!-- General JS Scripts -->
     <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/modules/popper.js') }}"></script>
     <script src="{{ asset('assets/modules/tooltip.js') }}"></script>
@@ -83,12 +87,41 @@
     <script src="{{ asset('assets/modules/moment.min.js') }}"></script>
     <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
-    <script src="{{ asset('assets/js/scripts.js') }}"></script>
-    <script src="{{ asset('assets/js/custom.js') }}"></script>
+    <!-- JS Libraies -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Template JS File -->
+    <script src="{{ asset('assets/js/scripts.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+    @if (session()->has('success'))
+        <script>
+            Swal.fire({
+                text: "{{ session()->get('success') }}",
+                icon: 'success',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            })
+        </script>
+    @endif
+
+    @if (session()->has('error'))
+        <script>
+            Swal.fire({
+                text: "{{ session()->get('error') }}",
+                icon: 'error',
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            })
+        </script>
+    @endif
+
     <script>
-        document.getElementById('years').innerHTML = new Date().getFullYear();
+        document.getElementById('year').innerHTML = new Date().getFullYear();
     </script>
 </body>
 
