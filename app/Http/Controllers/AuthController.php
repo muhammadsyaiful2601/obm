@@ -79,7 +79,22 @@ class AuthController extends Controller
             if (!$response) {
                 return redirect()->back()->with('error', 'Kredensial tidak valid!');
             }
-            return redirect('/masuk')->with('success', 'Login berhasil');
+            return redirect()->route('dashboard')->with('success', 'Login berhasil');
+        } catch (\Throwable $th) {
+            Log::error([
+                'line'      => $th->getLine(),
+                'file'      => $th->getFile(),
+                'message'   => $th->getMessage(),
+            ]);
+
+            return redirect()->back()->with('error', 'Terjadi kesalahan');
+        }
+    }
+    public function logout()
+    {
+        try {
+            session()->flush();
+            return redirect('/')->with('success', 'Anda telah keluar');
         } catch (\Throwable $th) {
             Log::error([
                 'line'      => $th->getLine(),
