@@ -14,7 +14,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'checkLogin' => \App\Http\Middleware\CheckLogin::class,
         ]);
+        $middleware->web(append: [
+            \App\Http\Middleware\SetLocale::class,
+        ]);
     })
-    ->withExceptions(function (Exceptions $exceptions): void {
-        //
-    })->create();
+    ->withExceptions(function (Exceptions $exceptions): void {})->create();

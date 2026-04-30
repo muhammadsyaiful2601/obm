@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Register &mdash; OMDB</title>
+    <title>{{ __('messages.register_title') }} &mdash; OMDB</title>
 
     <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/modules/fontawesome/css/all.min.css') }}">
-
     <link rel="stylesheet" href="{{ asset('assets/modules/jquery-selectric/selectric.css') }}">
-
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
 </head>
@@ -27,34 +25,36 @@
                                 class="shadow-light rounded-circle">
                         </div>
 
+                        <!-- Language Switcher (Identik dengan halaman Login) -->
+                        <div class="text-center mb-3">
+                            <div class="dropdown d-inline-block">
+                                <button class="btn btn-outline-primary btn-sm dropdown-toggle text-uppercase"
+                                    type="button" data-toggle="dropdown">
+                                    <i class="fas fa-globe"></i> {{ app()->getLocale() }}
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a href="{{ route('lang.switch', 'en') }}"
+                                        class="dropdown-item {{ app()->getLocale() == 'en' ? 'active' : '' }}">
+                                        English
+                                    </a>
+                                    <a href="{{ route('lang.switch', 'id') }}"
+                                        class="dropdown-item {{ app()->getLocale() == 'id' ? 'active' : '' }}">
+                                        Bahasa Indonesia
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h4>Register</h4>
+                                <h4>{{ __('messages.register_title') }}</h4>
                             </div>
 
                             <div class="card-body">
-                                @if (session('success'))
-                                    <div class="alert alert-success alert-dismissible show fade">
-                                        <div class="alert-body">
-                                            <button class="close" data-dismiss="alert"><span>&times;</span></button>
-                                            {{ session('success') }}
-                                        </div>
-                                    </div>
-                                @endif
-
-                                @if (session('error'))
-                                    <div class="alert alert-danger alert-dismissible show fade">
-                                        <div class="alert-body">
-                                            <button class="close" data-dismiss="alert"><span>&times;</span></button>
-                                            {{ session('error') }}
-                                        </div>
-                                    </div>
-                                @endif
-
                                 <form method="POST" action="{{ route('register.process') }}">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="full_name">Full Name</label>
+                                        <label for="full_name">{{ __('messages.full_name') }}</label>
                                         <input id="full_name" type="text"
                                             class="form-control @error('name') is-invalid @enderror" name="name"
                                             value="{{ old('name') }}" autofocus>
@@ -88,8 +88,8 @@
                                             @enderror
                                         </div>
                                         <div class="form-group col-6">
-                                            <label for="password_confirmation" class="d-block">Password
-                                                Confirmation</label>
+                                            <label for="password_confirmation"
+                                                class="d-block">{{ __('messages.password_confirmation') }}</label>
                                             <input id="password_confirmation" type="password" class="form-control"
                                                 name="password_confirmation">
                                         </div>
@@ -97,18 +97,18 @@
 
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-lg btn-block">
-                                            Register
+                                            {{ __('messages.register_title') }}
                                         </button>
                                     </div>
                                 </form>
 
                                 <div class="mt-5 text-muted text-center">
-                                    Already have an account? <a href="{{ route('login') }}">Login</a>
+                                    {{ __('messages.already_have_account') }} <a href="{{ route('login') }}">Login</a>
                                 </div>
                             </div>
                         </div>
                         <div class="simple-footer">
-                            Copyright &copy; <span id="years"></span>
+                            Copyright &copy; Stisla <span id="years"></span>
                         </div>
                     </div>
                 </div>
@@ -116,6 +116,7 @@
         </section>
     </div>
 
+    <!-- Scripts Tetap Sama -->
     <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/modules/popper.js') }}"></script>
     <script src="{{ asset('assets/modules/tooltip.js') }}"></script>
@@ -123,17 +124,13 @@
     <script src="{{ asset('assets/modules/nicescroll/jquery.nicescroll.min.js') }}"></script>
     <script src="{{ asset('assets/modules/moment.min.js') }}"></script>
     <script src="{{ asset('assets/js/stisla.js') }}"></script>
-
     <script src="{{ asset('assets/modules/jquery-pwstrength/jquery.pwstrength.min.js') }}"></script>
     <script src="{{ asset('assets/modules/jquery-selectric/jquery.selectric.min.js') }}"></script>
-
     <script src="{{ asset('assets/js/page/auth-register.js') }}"></script>
-
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
     <script>
-        const years = document.getElementById('years');
-        years.innerHTML = new Date().getFullYear();
+        document.getElementById('years').innerHTML = new Date().getFullYear();
     </script>
 </body>
 

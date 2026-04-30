@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- Mengubah atribut lang secara dinamis -->
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Login &mdash; OMDB</title>
+    <!-- Menggunakan title dari kamus -->
+    <title>{{ __('messages.login_title') }} &mdash; OMDB</title>
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap/css/bootstrap.min.css') }}">
@@ -30,9 +32,30 @@
                                 class="shadow-light rounded-circle">
                         </div>
 
+                        <!-- Tombol Switcher Bahasa sesuai Referensi Gambar -->
+                        <div class="d-flex justify-content-center mb-4">
+                            <div class="dropdown">
+                                <button class="btn btn-outline-primary dropdown-toggle text-uppercase" type="button"
+                                    id="languageSelector" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <i class="fas fa-globe mr-1"></i> {{ app()->getLocale() }}
+                                </button>
+                                <div class="dropdown-menu shadow-sm" aria-labelledby="languageSelector">
+                                    <a class="dropdown-item d-flex align-items-center {{ app()->getLocale() == 'id' ? 'active' : '' }}"
+                                        href="{{ route('lang.switch', 'id') }}">
+                                        ID - Indonesia
+                                    </a>
+                                    <a class="dropdown-item d-flex align-items-center {{ app()->getLocale() == 'en' ? 'active' : '' }}"
+                                        href="{{ route('lang.switch', 'en') }}">
+                                        EN - English
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h4>Login</h4>
+                                <h4>{{ __('messages.login_title') }}</h4>
                             </div>
 
                             <div class="card-body">
@@ -59,14 +82,14 @@
 
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                                            Login
+                                            {{ __('messages.login_title') }}
                                         </button>
                                     </div>
                                 </form>
-
                             </div>
                         </div>
                         <div class="mt-5 text-muted text-center">
+                            {{-- Gunakan key register_title jika ingin diterjemahkan --}}
                             Don't have an account? <a href="{{ url('/register') }}">Create One</a>
                         </div>
                         <div class="simple-footer">
@@ -78,7 +101,7 @@
         </section>
     </div>
 
-    <!-- General JS Scripts -->
+    <!-- Script JS tetap sama seperti kode awal kamu -->
     <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/modules/popper.js') }}"></script>
     <script src="{{ asset('assets/modules/tooltip.js') }}"></script>
@@ -86,14 +109,11 @@
     <script src="{{ asset('assets/modules/nicescroll/jquery.nicescroll.min.js') }}"></script>
     <script src="{{ asset('assets/modules/moment.min.js') }}"></script>
     <script src="{{ asset('assets/js/stisla.js') }}"></script>
-
-    <!-- JS Libraies -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <!-- Template JS File -->
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
 
+    {{-- SweetAlert Section tetap dipertahankan --}}
     @if (session()->has('success'))
         <script>
             Swal.fire({

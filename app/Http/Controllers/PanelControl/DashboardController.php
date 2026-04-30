@@ -11,4 +11,9 @@ class DashboardController extends Controller
     {
         return view('controll-panel.movie');
     }
+
+    public function favorite()
+    {
+        return view('controll-panel.favorite');
+    }
 }

@@ -105,4 +105,11 @@ class AuthController extends Controller
             return redirect()->back()->with('error', 'Terjadi kesalahan');
         }
     }
+    public function switchLang($locale)
+    {
+        if (in_array($locale, ['en', 'id'])) {
+            session(['locale' => $locale]);
+        }
+        return redirect()->back();
+    }
 }
