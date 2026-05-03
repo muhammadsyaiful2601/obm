@@ -25,10 +25,12 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>{{ app()->getLocale() == 'id' ? 'Favorit Saya' : 'My Favorites' }}</h1>
+                <!-- Menggunakan __() untuk multi-bahasa -->
+                <h1>{{ __('messages.my_favorites') }}</h1>
                 <div class="section-header-breadcrumb">
-                    <div class="breadcrumb-item active"><a href="{{ url('dashboard') }}">Dashboard</a></div>
-                    <div class="breadcrumb-item">{{ app()->getLocale() == 'id' ? 'Favorit' : 'Favorites' }}</div>
+                    <div class="breadcrumb-item active"><a
+                            href="{{ url('dashboard') }}">{{ __('messages.dashboard') }}</a></div>
+                    <div class="breadcrumb-item">{{ __('messages.favorites') }}</div>
                 </div>
             </div>
 
@@ -37,22 +39,21 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4>{{ app()->getLocale() == 'id' ? 'Film yang Disukai' : 'Favorite Movies' }}</h4>
+                                <h4>{{ __('messages.favorite_movies') }}</h4>
                             </div>
                             <div class="card-body">
                                 <div id="favorites-content">
-                                    {{-- Jika belum ada favorit[cite: 1] --}}
                                     <div class="text-center py-5">
                                         <i class="fas fa-heart-broken fa-3x text-muted mb-3 d-block"></i>
                                         <h5 class="text-muted">
-                                            {{ app()->getLocale() == 'id' ? 'Belum ada favorit' : 'No favorites yet' }}
+                                            {{ __('messages.no_favorites_yet') }}
                                         </h5>
                                         <p class="text-muted">
-                                            {{ app()->getLocale() == 'id' ? 'Mulai tambahkan film ke daftar favoritmu!' : 'Start adding movies to your favorites list!' }}
+                                            {{ __('messages.start_adding_favorites') }}
                                         </p>
                                         <a href="{{ url('dashboard') }}" class="btn btn-primary mt-2">
                                             <i class="fas fa-search"></i>
-                                            {{ app()->getLocale() == 'id' ? 'Cari Film' : 'Search Movies' }}
+                                            {{ __('messages.search_movies') }}
                                         </a>
                                     </div>
                                 </div>

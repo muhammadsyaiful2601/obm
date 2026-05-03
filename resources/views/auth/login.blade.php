@@ -89,8 +89,8 @@
                             </div>
                         </div>
                         <div class="mt-5 text-muted text-center">
-                            {{-- Gunakan key register_title jika ingin diterjemahkan --}}
-                            Don't have an account? <a href="{{ url('/register') }}">Create One</a>
+                            {{ __('messages.dont_have_account') }}
+                            <a href="{{ url('/register') }}">{{ __('messages.create_one') }}</a>
                         </div>
                         <div class="simple-footer">
                             Copyright &copy; <span id="year"></span>
