@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PanelControl\DashboardController;
+use App\Http\Controllers\PanelControl\MovieController;
 
 Route::get('/', [AuthController::class, 'index'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
@@ -13,6 +14,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('signout');
 Route::prefix('controll-panel')->middleware('checkLogin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/favorite', [DashboardController::class, 'favorite'])->name('favorite');
+    Route::get('/movies', [MovieController::class, 'index'])->name('panel.movies');
 });
 
 

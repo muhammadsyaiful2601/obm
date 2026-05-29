@@ -95,6 +95,105 @@
     </div>
 
     @include('layout.footer')
+
+    <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#search-form').on('submit', function(e) {
+                e.preventDefault(); // Mencegah halaman reload/refresh agar AJAX berjalan
+
+                let query = $('#search-input').val().trim();
+
+                // Jika input pencarian kosong, jangan lakukan request
+                if (query === '') {
+                    $('#movie-container').html(`
+                    <tr id=\"empty-row\">
+                        <td colspan=\"5\" class=\"text-center py-5\">
+                            <i class=\"fas fa-search fa-3x text-muted mb-3 d-block\"></i>
+                            <span class=\"text-muted\">{{ __('messages.search_instruction') }}</span>
+                        </td>
+                    </tr>
+                `);
+                    return;
+                }
+
+                // Tampilkan animasi loader dan kosongkan kontainer tabel
+                $('#loader').show();
+                $('#movie-container').empty();
+
+                $.ajax({
+                    url: "{{ route('panel.movies') }}", // Mengarah ke rute /controll-panel/movies Anda
+                    type: "GET",
+                    data: {
+                        q: query
+                    },
+                    dataType: "json",
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest' // Wajib agar Controller mengenali ini sebagai request AJAX
+                    },
+                    success: function(response) {
+                        $('#loader').hide();
+
+                        // Jika ada error response dari OMDB API (misal key salah atau film tidak ditemukan)
+                        if (response.error) {
+                            $('#movie-container').html(`
+                            <tr>
+                                <td colspan="5" class="text-center text-danger py-4">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i> ${response.error}
+                                </td>
+                            </tr>
+                        `);
+                            return;
+                        }
+
+                        // Jika film berhasil ditemukan dan datanya ada
+                        if (response.movies && response.movies.length > 0) {
+                            let rows = '';
+                            response.movies.forEach(function(movie) {
+                                // Cek jika film tidak memiliki poster resmi dari OMDB
+                                let poster = movie.Poster !== 'N/A' ? movie.Poster :
+                                    'https://via.placeholder.com/50x75?text=No+Image';
+
+                                rows += `
+                                <tr>
+                                    <td><img src="${poster}" alt="${movie.Title}" width="50" class="img-thumbnail shadow-sm"></td>
+                                    <td class="align-middle font-weight-bold">${movie.Title}</td>
+                                    <td class="align-middle">${movie.Year}</td>
+                                    <td class="align-middle"><span class="badge badge-primary text-capitalize">${movie.Type}</span></td>
+                                    <td class="align-middle">
+                                        <button class="btn btn-sm btn-danger add-favorite" data-id="${movie.imdbID}">
+                                            <i class="fas fa-heart"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                            });
+                            $('#movie-container').html(
+                                rows);
+                        } else {
+                            $('#movie-container').html(`
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">Film tidak ditemukan.</td>
+                            </tr>
+                        `);
+                        }
+                    },
+                    error: function(xhr) {
+                        $('#loader').hide();
+                        $('#movie-container').html(`
+                        <tr>
+                            <td colspan="5" class="text-center text-danger py-4">
+                                <i class="fas fa-times-circle mr-2"></i> Terjadi kesalahan sistem atau koneksi API terputus.
+                            </td>
+                        </tr>
+                    `);
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

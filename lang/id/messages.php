@@ -32,4 +32,6 @@ return [
     'greeting' => 'Halo',
     'logout' => 'Keluar',
     'select_language' => 'Pilih Bahasa',
+    'movie_not_found' => 'Film tidak ditemukan.',
+    'api_error' => 'Terjadi kesalahan sistem atau koneksi API terputus.',
 ];
