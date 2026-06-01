@@ -35,21 +35,21 @@ class AuthController extends Controller
                 'required',
                 'confirmed',
                 Password::min(8)
-                // ->letters()
-                // ->mixedCase()
-                // ->numbers()
-                // ->symbols()
-                // ->uncompromised(),
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(),
             ]
         ]);
 
         try {
             $response = $this->authService->register($validated);
             if (!$response) {
-                return redirect()->back()->with('error', 'Registrasi gagal');
+                return redirect()->back()->with('error', trans('messages.registration_failed'));
             }
 
-            return redirect()->route('login')->with('success', 'Registrasi berhasil');
+            return redirect()->route('login')->with('success', trans('messages.registration_success'));
         } catch (\Throwable $th) {
             Log::error([
                 'line'      => $th->getLine(),
@@ -57,7 +57,7 @@ class AuthController extends Controller
                 'message'   => $th->getMessage()
             ]);
 
-            return redirect()->back()->with('error', 'Terjadi kesalahan');
+            return redirect()->back()->with('error', trans('messages.system_error'));
         }
     }
 
@@ -67,19 +67,19 @@ class AuthController extends Controller
             'email'     => ['required', 'email', 'exists:users'],
             'password'  => ['required']
         ], [
-            'email.required' => 'Email wajib diisi',
-            'email.email'    => 'Email tidak valid',
-            'email.exists'    => 'Email tidak terdaftar',
-            'password.required' => 'Password wajib diisi'
+            'email.required' => trans('messages.email_required'),
+            'email.email'    => trans('messages.email_invalid'),
+            'email.exists'    => trans('messages.email_exists'),
+            'password.required' => trans('messages.password_required')
         ]);
 
         try {
             $response = $this->authService->login($validated);
 
             if (!$response) {
-                return redirect()->back()->with('error', 'Kredensial tidak valid!');
+                return redirect()->back()->with('error', trans('messages.invalid_credentials'));
             }
-            return redirect()->route('dashboard')->with('success', 'Login berhasil');
+            return redirect()->route('dashboard')->with('success', trans('messages.login_success'));
         } catch (\Throwable $th) {
             Log::error([
                 'line'      => $th->getLine(),
@@ -87,14 +87,14 @@ class AuthController extends Controller
                 'message'   => $th->getMessage(),
             ]);
 
-            return redirect()->back()->with('error', 'Terjadi kesalahan');
+            return redirect()->back()->with('error', trans('messages.system_error'));
         }
     }
     public function logout()
     {
         try {
             session()->flush();
-            return redirect('/')->with('success', 'Anda telah keluar');
+            return redirect('/')->with('success', trans('messages.logout_success'));
         } catch (\Throwable $th) {
             Log::error([
                 'line'      => $th->getLine(),
@@ -102,7 +102,7 @@ class AuthController extends Controller
                 'message'   => $th->getMessage(),
             ]);
 
-            return redirect()->back()->with('error', 'Terjadi kesalahan');
+            return redirect()->back()->with('error', trans('messages.system_error'));
         }
     }
     public function switchLang($locale)

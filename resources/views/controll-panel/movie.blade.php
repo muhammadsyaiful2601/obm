@@ -99,7 +99,102 @@
     <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
 
     <script>
+        // Localization untuk JavaScript
+        const appLocales = {
+            movieNotFound: "{{ __('messages.movie_not_found') }}",
+            apiError: "{{ __('messages.api_error') }}",
+            confirmDeleteFavorite: "{{ __('messages.confirm_delete_favorite') }}",
+            errorDeleteFavorite: "{{ __('messages.error_delete_favorite') }}",
+            errorSearchFilm: "{{ __('messages.error_search_film') }}"
+        };
+
         $(document).ready(function() {
+            // Fungsi untuk toggle favorit
+            $(document).on('click', '.add-favorite', function(e) {
+                e.preventDefault();
+
+                let btn = $(this);
+                let imdbId = btn.data('id');
+                let title = btn.closest('tr').find('td:nth-child(2)').text().trim();
+                let year = btn.closest('tr').find('td:nth-child(3)').text().trim();
+                let poster = btn.closest('tr').find('img').attr('src');
+                let type = btn.closest('tr').find('.badge').text().trim();
+
+                $.ajax({
+                    url: "{{ route('favorite.toggle') }}",
+                    type: "POST",
+                    data: {
+                        imdb_id: imdbId,
+                        title: title,
+                        year: year,
+                        poster: poster,
+                        type: type,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function(response) {
+                        if (response.isFavorite) {
+                            btn.removeClass('btn-danger').addClass('btn-success');
+                            btn.html('<i class="fas fa-heart"></i>');
+                            showNotification('success', response.message);
+                        } else {
+                            btn.removeClass('btn-success').addClass('btn-danger');
+                            btn.html('<i class="fas fa-heart"></i>');
+                            showNotification('warning', response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                        showNotification('error', appLocales.errorSearchFilm);
+                    }
+                });
+            });
+
+            // Fungsi untuk menghapus favorit dari halaman favorit
+            $(document).on('click', '.remove-favorite', function(e) {
+                e.preventDefault();
+
+                let btn = $(this);
+                let imdbId = btn.data('id');
+                let row = btn.closest('tr');
+
+                $.ajax({
+                    url: "{{ route('favorite.toggle') }}",
+                    type: "POST",
+                    data: {
+                        imdb_id: imdbId,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function(response) {
+                        row.fadeOut(300, function() {
+                            $(this).remove();
+
+                            // Jika tidak ada favorit, tampilkan pesan kosong
+                            let table = $('table tbody');
+                            if (table.find('tr').length === 0) {
+                                location.reload();
+                            }
+                        });
+                        showNotification('info', response.message);
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                        showNotification('error', 'Terjadi kesalahan saat menghapus favorit');
+                    }
+                });
+            });
+
+            // Fungsi helper untuk notification
+            function showNotification(type, message) {
+                // Anda bisa menggunakan Toast library atau alert sederhana
+                alert(message);
+            }
+
             $('#search-form').on('submit', function(e) {
                 e.preventDefault(); // Mencegah halaman reload/refresh agar AJAX berjalan
 
@@ -174,7 +269,7 @@
                         } else {
                             $('#movie-container').html(`
                             <tr>
-                                <td colspan="5" class="text-center text-muted py-4">Film tidak ditemukan.</td>
+                                <td colspan="5" class="text-center text-muted py-4">${appLocales.movieNotFound}</td>
                             </tr>
                         `);
                         }
@@ -184,7 +279,7 @@
                         $('#movie-container').html(`
                         <tr>
                             <td colspan="5" class="text-center text-danger py-4">
-                                <i class="fas fa-times-circle mr-2"></i> Terjadi kesalahan sistem atau koneksi API terputus.
+                                <i class="fas fa-times-circle mr-2"></i> ${appLocales.apiError}
                             </td>
                         </tr>
                     `);

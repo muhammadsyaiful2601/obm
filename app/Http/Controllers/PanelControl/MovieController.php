@@ -45,7 +45,13 @@ class MovieController extends Controller
                 'message'   => $th->getMessage(),
             ]);
 
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat mencari film.');
+            if ($request->ajax()) {
+                return response()->json([
+                    'error' => trans('messages.api_connection_error')
+                ], 500);
+            }
+
+            return redirect()->back()->with('error', trans('messages.error_search_film'));
         }
     }
 }

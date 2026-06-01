@@ -7,18 +7,17 @@
             <a href="{{ route('dashboard') }}">MS</a>
         </div>
         <ul class="sidebar-menu">
-            <li class="menu-header">Pages</li>
+            <li class="menu-header">{{ __('messages.pages') }}</li>
 
             <li class="dropdown {{ Request::is('controll-panel/*') ? 'active' : '' }}">
-                <a href="#" class="nav-link has-dropdown"><i class="fas fa-film"></i><span>Movies</span></a>
+                <a href="#" class="nav-link has-dropdown"><i
+                        class="fas fa-film"></i><span>{{ __('messages.movies') }}</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ Request::is('controll-panel/dashboard') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ route('dashboard') }}">{{ app()->getLocale() == 'id' ? 'Cari Film' : 'Search Movies' }}</a>
+                        <a class="nav-link" href="{{ route('dashboard') }}">{{ __('messages.search_films') }}</a>
                     </li>
                     <li class="{{ Request::is('controll-panel/favorite') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ route('favorite') }}">{{ app()->getLocale() == 'id' ? 'Favorit Saya' : 'My Favorites' }}</a>
+                        <a class="nav-link" href="{{ route('favorite') }}">{{ __('messages.my_favorites_menu') }}</a>
                     </li>
                 </ul>
             </li>

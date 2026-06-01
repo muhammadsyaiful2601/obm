@@ -43,11 +43,11 @@
                                 <div class="dropdown-menu shadow-sm" aria-labelledby="languageSelector">
                                     <a class="dropdown-item d-flex align-items-center {{ app()->getLocale() == 'id' ? 'active' : '' }}"
                                         href="{{ route('lang.switch', 'id') }}">
-                                        ID - Indonesia
+                                        {{ __('messages.id_indonesia') }}
                                     </a>
                                     <a class="dropdown-item d-flex align-items-center {{ app()->getLocale() == 'en' ? 'active' : '' }}"
                                         href="{{ route('lang.switch', 'en') }}">
-                                        EN - English
+                                        {{ __('messages.en_english') }}
                                     </a>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
                                     novalidate="">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="email">Email</label>
+                                        <label for="email">{{ __('messages.email') }}</label>
                                         <input type="email" class="form-control" name="email" tabindex="1">
                                         @error('email')
                                             <span class="text-sm text-danger">{{ $message }}</span>
@@ -72,7 +72,8 @@
 
                                     <div class="form-group">
                                         <div class="d-block">
-                                            <label for="password" class="control-label">Password</label>
+                                            <label for="password"
+                                                class="control-label">{{ __('messages.password') }}</label>
                                         </div>
                                         <input type="password" class="form-control" name="password" tabindex="2">
                                         @error('password')
@@ -93,7 +94,7 @@
                             <a href="{{ url('/register') }}">{{ __('messages.create_one') }}</a>
                         </div>
                         <div class="simple-footer">
-                            Copyright &copy; <span id="year"></span>
+                            {{ __('messages.copyright') }} &copy; <span id="year"></span>
                         </div>
                     </div>
                 </div>

@@ -42,7 +42,7 @@ class MovieService
             return [
                 'movies' => [],
                 'total' => 0,
-                'error' => $data['Error'] ?? 'film tidak ditemukan',
+                'error' => $data['Error'] ?? trans('messages.movie_not_found'),
             ];
         } catch (\Exception $e) {
             Log::error('OMDB API Error: ' . $e->getMessage());
@@ -50,7 +50,7 @@ class MovieService
             return [
                 'movies' => [],
                 'total' => 0,
-                'error' => 'Terjadi kesalahan saat menghubungi OMDB API',
+                'error' => trans('messages.api_connection_error'),
             ];
         }
     }

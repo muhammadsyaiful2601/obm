@@ -15,6 +15,11 @@ Route::prefix('controll-panel')->middleware('checkLogin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/favorite', [DashboardController::class, 'favorite'])->name('favorite');
     Route::get('/movies', [MovieController::class, 'index'])->name('panel.movies');
+
+    // Routes untuk Favorite Controller
+    Route::post('/favorite/toggle', [\App\Http\Controllers\PanelControl\FavoriteController::class, 'toggle'])->name('favorite.toggle');
+    Route::get('/favorite/check/{imdbId}', [\App\Http\Controllers\PanelControl\FavoriteController::class, 'check'])->name('favorite.check');
+    Route::get('/favorite/list', [\App\Http\Controllers\PanelControl\FavoriteController::class, 'getFavorites'])->name('favorite.list');
 });
 
 

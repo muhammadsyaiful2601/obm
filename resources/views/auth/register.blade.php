@@ -35,11 +35,11 @@
                                 <div class="dropdown-menu">
                                     <a href="{{ route('lang.switch', 'en') }}"
                                         class="dropdown-item {{ app()->getLocale() == 'en' ? 'active' : '' }}">
-                                        English
+                                        {{ __('messages.english') }}
                                     </a>
                                     <a href="{{ route('lang.switch', 'id') }}"
                                         class="dropdown-item {{ app()->getLocale() == 'id' ? 'active' : '' }}">
-                                        Bahasa Indonesia
+                                        {{ __('messages.indonesia') }}
                                     </a>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="email">Email</label>
+                                        <label for="email">{{ __('messages.email') }}</label>
                                         <input id="email" type="email"
                                             class="form-control @error('email') is-invalid @enderror" name="email"
                                             value="{{ old('email') }}">
@@ -75,7 +75,7 @@
 
                                     <div class="row">
                                         <div class="form-group col-6">
-                                            <label for="password" class="d-block">Password</label>
+                                            <label for="password" class="d-block">{{ __('messages.password') }}</label>
                                             <input id="password" type="password"
                                                 class="form-control pwstrength @error('password') is-invalid @enderror"
                                                 data-indicator="pwindicator" name="password">
@@ -103,12 +103,13 @@
                                 </form>
 
                                 <div class="mt-5 text-muted text-center">
-                                    {{ __('messages.already_have_account') }} <a href="{{ route('login') }}">Login</a>
+                                    {{ __('messages.already_have_account') }} <a
+                                        href="{{ route('login') }}">{{ __('messages.login_title') }}</a>
                                 </div>
                             </div>
                         </div>
                         <div class="simple-footer">
-                            Copyright &copy; Stisla <span id="years"></span>
+                            {{ __('messages.copyright') }} &copy; Stisla <span id="years"></span>
                         </div>
                     </div>
                 </div>

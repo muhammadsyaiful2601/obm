@@ -43,19 +43,60 @@
                             </div>
                             <div class="card-body">
                                 <div id="favorites-content">
-                                    <div class="text-center py-5">
-                                        <i class="fas fa-heart-broken fa-3x text-muted mb-3 d-block"></i>
-                                        <h5 class="text-muted">
-                                            {{ __('messages.no_favorites_yet') }}
-                                        </h5>
-                                        <p class="text-muted">
-                                            {{ __('messages.start_adding_favorites') }}
-                                        </p>
-                                        <a href="{{ url('dashboard') }}" class="btn btn-primary mt-2">
-                                            <i class="fas fa-search"></i>
-                                            {{ __('messages.search_movies') }}
-                                        </a>
-                                    </div>
+                                    @if ($favorites && count($favorites) > 0)
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>{{ __('messages.poster') }}</th>
+                                                        <th>{{ __('messages.title') }}</th>
+                                                        <th>{{ __('messages.year') }}</th>
+                                                        <th>{{ __('messages.type') }}</th>
+                                                        <th>{{ __('messages.action') }}</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($favorites as $favorite)
+                                                        <tr id="favorite-{{ $favorite->imdb_id }}">
+                                                            <td>
+                                                                <img src="{{ $favorite->poster !== 'N/A' && $favorite->poster ? $favorite->poster : 'https://via.placeholder.com/50x75?text=No+Image' }}"
+                                                                    alt="{{ $favorite->title }}" width="50"
+                                                                    class="img-thumbnail shadow-sm">
+                                                            </td>
+                                                            <td class="align-middle font-weight-bold">
+                                                                {{ $favorite->title }}</td>
+                                                            <td class="align-middle">{{ $favorite->year ?? '-' }}</td>
+                                                            <td class="align-middle">
+                                                                <span
+                                                                    class="badge badge-primary text-capitalize">{{ $favorite->type ?? '-' }}</span>
+                                                            </td>
+                                                            <td class="align-middle">
+                                                                <button class="btn btn-sm btn-danger remove-favorite"
+                                                                    data-id="{{ $favorite->imdb_id }}">
+                                                                    <i class="fas fa-trash"></i>
+                                                                    {{ __('messages.remove') }}
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @else
+                                        <div class="text-center py-5">
+                                            <i class="fas fa-heart-broken fa-3x text-muted mb-3 d-block"></i>
+                                            <h5 class="text-muted">
+                                                {{ __('messages.no_favorites_yet') }}
+                                            </h5>
+                                            <p class="text-muted">
+                                                {{ __('messages.start_adding_favorites') }}
+                                            </p>
+                                            <a href="{{ route('panel.movies') }}" class="btn btn-primary mt-2">
+                                                <i class="fas fa-search"></i>
+                                                {{ __('messages.search_movies') }}
+                                            </a>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -66,6 +107,70 @@
     </div>
 
     @include('layout.footer')
+
+    <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
+
+    <script>
+        // Localization untuk JavaScript
+        const appLocales = {
+            confirmDeleteFavorite: "{{ __('messages.confirm_delete_favorite') }}",
+            errorDeleteFavorite: "{{ __('messages.error_delete_favorite') }}"
+        };
+
+        $(document).ready(function() {
+            // Fungsi untuk menghapus favorit
+            $(document).on('click', '.remove-favorite', function(e) {
+                e.preventDefault();
+
+                let btn = $(this);
+                let imdbId = btn.data('id');
+                let row = btn.closest('tr');
+
+                // Konfirmasi sebelum menghapus
+                if (!confirm(appLocales.confirmDeleteFavorite)) {
+                    return;
+                }
+
+                // Disable button saat proses
+                btn.prop('disabled', true);
+                btn.html('<i class="fas fa-spinner fa-spin"></i>');
+
+                $.ajax({
+                    url: "{{ route('favorite.toggle') }}",
+                    type: "POST",
+                    data: {
+                        imdb_id: imdbId,
+                        title: '',
+                        _token: "{{ csrf_token() }}"
+                    },
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    success: function(response) {
+                        // Animasi fade out dan hapus row
+                        row.fadeOut(300, function() {
+                            $(this).remove();
+
+                            // Jika tidak ada favorit lagi, reload halaman
+                            let tbody = $('table tbody');
+                            if (tbody.find('tr').length === 0) {
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 500);
+                            }
+                        });
+                    },
+                    error: function(xhr) {
+                        console.error(xhr.responseText);
+                        alert(appLocales.errorDeleteFavorite);
+                        // Kembalikan button ke normal jika error
+                        btn.prop('disabled', false);
+                        btn.html('<i class="fas fa-trash"></i> {{ __('messages.remove') }}');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 
