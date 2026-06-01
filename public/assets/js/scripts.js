@@ -84,13 +84,25 @@ $(function() {
       $(".main-sidebar").niceScroll(sidebar_nicescroll_opts);
       sidebar_nicescroll = $(".main-sidebar").getNiceScroll();
 
-      $(".main-sidebar .sidebar-menu li a.has-dropdown").off('click').on('click', function() {
+      $(".main-sidebar .sidebar-menu li a.has-dropdown").off('click').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
         var me = $(this);
-
-        me.parent().find('> .dropdown-menu').slideToggle(500, function() {
-          update_sidebar_nicescroll();
-          return false;
-        });
+        var parent = me.closest('li.dropdown');
+        var isOpen = parent.hasClass('active');
+        
+        // Close other open dropdowns at the same level
+        me.closest('.sidebar-menu').find('> li.dropdown.active').not(parent).removeClass('active');
+        
+        // Toggle current dropdown
+        if(isOpen) {
+          parent.removeClass('active');
+        } else {
+          parent.addClass('active');
+        }
+        
+        update_sidebar_nicescroll();
         return false;
       });
     }
