@@ -10,7 +10,6 @@
                 </ul>
             </form>
             <ul class="navbar-nav navbar-right">
-                <!-- Dropdown Bahasa -->
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                         <div class="d-sm-none d-lg-inline-block">
@@ -30,7 +29,6 @@
                     </div>
                 </li>
 
-                <!-- Profile User -->
                 <li class="dropdown">
                     <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                         <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"

@@ -5,8 +5,8 @@
     </div>
 </footer>
 
-</div>
-</div>
+</div> <!-- Penutup main-wrapper dari header -->
+</div> <!-- Penutup app dari header -->
 
 <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/modules/popper.js') }}"></script>
@@ -19,6 +19,5 @@
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 
 <script>
-    // Update tahun otomatis di footer
     document.getElementById('years').textContent = new Date().getFullYear();
 </script>

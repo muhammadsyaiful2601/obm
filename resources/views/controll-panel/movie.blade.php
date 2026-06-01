@@ -97,8 +97,6 @@
 
     @include('layout.footer')
 
-    <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
-
     <script>
         // Localization untuk JavaScript
         const appLocales = {
@@ -174,8 +172,6 @@
                     success: function(response) {
                         row.fadeOut(300, function() {
                             $(this).remove();
-
-                            // Jika tidak ada favorit, tampilkan pesan kosong
                             let table = $('table tbody');
                             if (table.find('tr').length === 0) {
                                 location.reload();
@@ -190,48 +186,43 @@
                 });
             });
 
-            // Fungsi helper untuk notification
             function showNotification(type, message) {
-                // Anda bisa menggunakan Toast library atau alert sederhana
                 alert(message);
             }
 
             $('#search-form').on('submit', function(e) {
-                e.preventDefault(); // Mencegah halaman reload/refresh agar AJAX berjalan
+                e.preventDefault();
 
                 let query = $('#search-input').val().trim();
 
-                // Jika input pencarian kosong, jangan lakukan request
                 if (query === '') {
                     $('#movie-container').html(`
-                    <tr id=\"empty-row\">
-                        <td colspan=\"5\" class=\"text-center py-5\">
-                            <i class=\"fas fa-search fa-3x text-muted mb-3 d-block\"></i>
-                            <span class=\"text-muted\">{{ __('messages.search_instruction') }}</span>
+                    <tr id="empty-row">
+                        <td colspan="5" class="text-center py-5">
+                            <i class="fas fa-search fa-3x text-muted mb-3 d-block"></i>
+                            <span class="text-muted">{{ __('messages.search_instruction') }}</span>
                         </td>
                     </tr>
                 `);
                     return;
                 }
 
-                // Tampilkan animasi loader dan kosongkan kontainer tabel
                 $('#loader').show();
                 $('#movie-container').empty();
 
                 $.ajax({
-                    url: "{{ route('panel.movies') }}", // Mengarah ke rute /controll-panel/movies Anda
+                    url: "{{ route('panel.movies') }}",
                     type: "GET",
                     data: {
                         q: query
                     },
                     dataType: "json",
                     headers: {
-                        'X-Requested-With': 'XMLHttpRequest' // Wajib agar Controller mengenali ini sebagai request AJAX
+                        'X-Requested-With': 'XMLHttpRequest'
                     },
                     success: function(response) {
                         $('#loader').hide();
 
-                        // Jika ada error response dari OMDB API (misal key salah atau film tidak ditemukan)
                         if (response.error) {
                             $('#movie-container').html(`
                             <tr>
@@ -243,11 +234,9 @@
                             return;
                         }
 
-                        // Jika film berhasil ditemukan dan datanya ada
                         if (response.movies && response.movies.length > 0) {
                             let rows = '';
                             response.movies.forEach(function(movie) {
-                                // Cek jika film tidak memiliki poster resmi dari OMDB
                                 let poster = movie.Poster !== 'N/A' ? movie.Poster :
                                     'https://via.placeholder.com/50x75?text=No+Image';
 
@@ -265,8 +254,7 @@
                                 </tr>
                             `;
                             });
-                            $('#movie-container').html(
-                                rows);
+                            $('#movie-container').html(rows);
                         } else {
                             $('#movie-container').html(`
                             <tr>

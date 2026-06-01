@@ -10,7 +10,7 @@
             <li class="menu-header">{{ __('messages.pages') }}</li>
 
             <li class="dropdown {{ Request::is('controll-panel/*') ? 'active' : '' }}">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown-menu">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
                     <i class="fas fa-film"></i>
                     <span>{{ __('messages.movies') }}</span>
                 </a>

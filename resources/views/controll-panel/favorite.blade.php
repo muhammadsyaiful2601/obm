@@ -26,7 +26,6 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <!-- Menggunakan __() untuk multi-bahasa -->
                 <h1>{{ __('messages.my_favorites') }}</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a
@@ -86,15 +85,10 @@
                                     @else
                                         <div class="text-center py-5">
                                             <i class="fas fa-heart-broken fa-3x text-muted mb-3 d-block"></i>
-                                            <h5 class="text-muted">
-                                                {{ __('messages.no_favorites_yet') }}
-                                            </h5>
-                                            <p class="text-muted">
-                                                {{ __('messages.start_adding_favorites') }}
-                                            </p>
+                                            <h5 class="text-muted">{{ __('messages.no_favorites_yet') }}</h5>
+                                            <p class="text-muted">{{ __('messages.start_adding_favorites') }}</p>
                                             <a href="{{ route('panel.movies') }}" class="btn btn-primary mt-2">
-                                                <i class="fas fa-search"></i>
-                                                {{ __('messages.search_movies') }}
+                                                <i class="fas fa-search"></i> {{ __('messages.search_movies') }}
                                             </a>
                                         </div>
                                     @endif
@@ -108,8 +102,6 @@
     </div>
 
     @include('layout.footer')
-
-    <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
 
     <script>
         // Localization untuk JavaScript
@@ -127,12 +119,10 @@
                 let imdbId = btn.data('id');
                 let row = btn.closest('tr');
 
-                // Konfirmasi sebelum menghapus
                 if (!confirm(appLocales.confirmDeleteFavorite)) {
                     return;
                 }
 
-                // Disable button saat proses
                 btn.prop('disabled', true);
                 btn.html('<i class="fas fa-spinner fa-spin"></i>');
 
@@ -148,11 +138,9 @@
                         'X-Requested-With': 'XMLHttpRequest'
                     },
                     success: function(response) {
-                        // Animasi fade out dan hapus row
                         row.fadeOut(300, function() {
                             $(this).remove();
 
-                            // Jika tidak ada favorit lagi, reload halaman
                             let tbody = $('table tbody');
                             if (tbody.find('tr').length === 0) {
                                 setTimeout(function() {
@@ -164,7 +152,6 @@
                     error: function(xhr) {
                         console.error(xhr.responseText);
                         alert(appLocales.errorDeleteFavorite);
-                        // Kembalikan button ke normal jika error
                         btn.prop('disabled', false);
                         btn.html('<i class="fas fa-trash"></i> {{ __('messages.remove') }}');
                     }
@@ -173,6 +160,5 @@
         });
     </script>
 </body>
-
 
 </html>
