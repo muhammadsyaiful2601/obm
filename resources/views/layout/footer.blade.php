@@ -5,8 +5,8 @@
     </div>
 </footer>
 
-</div> <!-- Penutup main-wrapper dari header -->
-</div> <!-- Penutup app dari header -->
+</div>
+</div>
 
 <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/modules/popper.js') }}"></script>

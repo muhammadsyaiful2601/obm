@@ -1,0 +1,24 @@
+body.sidebar-mini .main-sidebar .sidebar-menu > li.active > .dropdown-menu,
+body.sidebar-mini .main-sidebar .sidebar-menu > li.show > .dropdown-menu {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: absolute !important;
+    left: 65px !important;
+    top: 0 !important;
+    background-color: #fff !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05) !important;
+    z-index: 9999 !important;
+    width: 200px !important;
+    padding: 10px 0 !important;
+}
+
+/* Merapikan link di dalam sub-menu saat sidebar mini */
+body.sidebar-mini .main-sidebar .sidebar-menu > li > .dropdown-menu li a {
+    padding-left: 20px !important;
+}
+
+/* Transisi halus agar perpindahan antar-state tidak patah */
+.main-sidebar, .main-sidebar .sidebar-menu li a, .main-content {
+    transition: all 0.3s ease-in-out;
+}
