@@ -16,6 +16,9 @@ Route::prefix('controll-panel')->middleware('checkLogin')->group(function () {
     Route::get('/favorite', [DashboardController::class, 'favorite'])->name('favorite');
     Route::get('/movies', [MovieController::class, 'index'])->name('panel.movies');
 
+    //Route untuk detail movie
+    Route::get('/movies/detail/{id}', [MovieController::class, 'detail'])->name('movies.detail');
+
     // Routes untuk Favorite Controller
     Route::post('/favorite/toggle', [\App\Http\Controllers\PanelControl\FavoriteController::class, 'toggle'])->name('favorite.toggle');
     Route::get('/favorite/check/{imdbId}', [\App\Http\Controllers\PanelControl\FavoriteController::class, 'check'])->name('favorite.check');

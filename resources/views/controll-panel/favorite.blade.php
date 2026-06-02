@@ -8,15 +8,8 @@
 
     <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/modules/fontawesome/css/all.min.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('assets/modules/jqvmap/dist/jqvmap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/modules/summernote/summernote-bs4.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/modules/owlcarousel2/dist/assets/owl.carousel.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/modules/owlcarousel2/dist/assets/owl.theme.default.min.css') }}">
-
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/dropdown-fix.css') }}">
 </head>
 
 <body>
@@ -70,11 +63,15 @@
                                                                 <span
                                                                     class="badge badge-primary text-capitalize">{{ $favorite->type ?? '-' }}</span>
                                                             </td>
-                                                            <td class="align-middle">
+                                                            <td class="align-middle text-nowrap">
+                                                                <button class="btn btn-sm btn-info movie-detail"
+                                                                    data-id="{{ $favorite->imdb_id }}" title="Detail">
+                                                                    <i class="fas fa-info-circle"></i>
+                                                                </button>
                                                                 <button class="btn btn-sm btn-danger remove-favorite"
-                                                                    data-id="{{ $favorite->imdb_id }}">
+                                                                    data-id="{{ $favorite->imdb_id }}"
+                                                                    title="{{ __('messages.remove') }}">
                                                                     <i class="fas fa-trash"></i>
-                                                                    {{ __('messages.remove') }}
                                                                 </button>
                                                             </td>
                                                         </tr>
@@ -101,20 +98,41 @@
         </section>
     </div>
 
+    <div class="modal fade" tabindex="-1" role="dialog" id="movieDetailModal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Film</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="movie-detail-content" class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @include('layout.footer')
 
     <script>
-        // Localization untuk JavaScript
         const appLocales = {
             confirmDeleteFavorite: "{{ __('messages.confirm_delete_favorite') }}",
             errorDeleteFavorite: "{{ __('messages.error_delete_favorite') }}"
         };
 
         $(document).ready(function() {
-            // Fungsi untuk menghapus favorit
+            // Hapus Favorit
             $(document).on('click', '.remove-favorite', function(e) {
                 e.preventDefault();
-
                 let btn = $(this);
                 let imdbId = btn.data('id');
                 let row = btn.closest('tr');
@@ -134,15 +152,10 @@
                         title: '',
                         _token: "{{ csrf_token() }}"
                     },
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
                     success: function(response) {
                         row.fadeOut(300, function() {
                             $(this).remove();
-
-                            let tbody = $('table tbody');
-                            if (tbody.find('tr').length === 0) {
+                            if ($('table tbody tr').length === 0) {
                                 setTimeout(function() {
                                     location.reload();
                                 }, 500);
@@ -150,10 +163,62 @@
                         });
                     },
                     error: function(xhr) {
-                        console.error(xhr.responseText);
                         alert(appLocales.errorDeleteFavorite);
                         btn.prop('disabled', false);
-                        btn.html('<i class="fas fa-trash"></i> {{ __('messages.remove') }}');
+                        btn.html('<i class="fas fa-trash"></i>');
+                    }
+                });
+            });
+
+            // Tampilkan Detail
+            $(document).on('click', '.movie-detail', function(e) {
+                e.preventDefault();
+                let imdbId = $(this).data('id');
+
+                $('#movieDetailModal').modal('show');
+                $('#movie-detail-content').html(`
+                    <div class="text-center py-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                `);
+
+                $.ajax({
+                    url: `/controll-panel/movies/detail/${imdbId}`,
+                    type: "GET",
+                    success: function(response) {
+                        if (response.Response === "True" || response.Title) {
+                            let poster = (response.Poster && response.Poster !== 'N/A') ?
+                                response.Poster :
+                                'https://via.placeholder.com/300x450?text=No+Image';
+                            let html = `
+                                <div class="row text-left">
+                                    <div class="col-md-4 text-center mb-3">
+                                        <img src="${poster}" alt="${response.Title}" class="img-fluid rounded shadow">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h4>${response.Title} (${response.Year})</h4>
+                                        <p class="mb-1"><strong><i class="fas fa-tags"></i> Genre:</strong> ${response.Genre}</p>
+                                        <p class="mb-1"><strong><i class="fas fa-video"></i> Director:</strong> ${response.Director}</p>
+                                        <p class="mb-1"><strong><i class="fas fa-users"></i> Actors:</strong> ${response.Actors}</p>
+                                        <p class="mb-1"><strong><i class="fas fa-star text-warning"></i> Rating:</strong> ${response.imdbRating}</p>
+                                        <hr>
+                                        <p><strong>Plot:</strong><br>${response.Plot}</p>
+                                    </div>
+                                </div>
+                            `;
+                            $('#movie-detail-content').html(html);
+                        } else {
+                            $('#movie-detail-content').html(
+                                `<div class="alert alert-danger">Film tidak ditemukan atau API error.</div>`
+                                );
+                        }
+                    },
+                    error: function(xhr) {
+                        $('#movie-detail-content').html(
+                            `<div class="alert alert-danger">Terjadi kesalahan saat mengambil detail film.</div>`
+                            );
                     }
                 });
             });

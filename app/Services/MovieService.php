@@ -54,4 +54,26 @@ class MovieService
             ];
         }
     }
+
+    public function getDetail($imdbId)
+    {
+        try {
+            $response = $this->client->get('', [
+                'query' => [
+                    'i' => $imdbId,
+                    'apikey' => $this->apiKey,
+                    'plot' => 'full' // Mengambil plot/sinopsis secara penuh
+                ],
+            ]);
+
+            return json_decode($response->getBody(), true);
+        } catch (\Exception $e) {
+            Log::error('OMDB API Error Detail: ' . $e->getMessage());
+
+            return [
+                'Response' => 'False',
+                'Error' => trans('messages.api_connection_error'),
+            ];
+        }
+    }
 }

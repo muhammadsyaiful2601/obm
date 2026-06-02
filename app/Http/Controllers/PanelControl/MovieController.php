@@ -54,4 +54,19 @@ class MovieController extends Controller
             return redirect()->back()->with('error', trans('messages.error_search_film'));
         }
     }
+
+    public function detail(Request $request, $id)
+    {
+        try {
+            $result = $this->movieService->getDetail($id);
+            return response()->json($result);
+        } catch (\Throwable $th) {
+            Log::error('Error during movie detail fetch: ' . $th->getMessage(), [
+                'line'      => $th->getLine(),
+                'file'      => $th->getFile(),
+            ]);
+
+            return response()->json(['Error' => trans('messages.api_connection_error')], 500);
+        }
+    }
 }
