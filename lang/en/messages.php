@@ -60,4 +60,19 @@ return [
     'email_exists' => 'Email not registered',
     'email_unique' => 'Email already exists',
     'password_required' => 'Password is required',
+
+    // Teks tambahan yang dibutuhkan untuk pencarian dan JavaScript
+    'movie_not_found' => 'Movie not found.',
+    'api_error' => 'A system error occurred or API connection lost.',
+
+    // Tambahan untuk Modal Detail Film
+    'movie_detail' => 'Movie Detail',
+    'close' => 'Close',
+    'genre' => 'Genre',
+    'director' => 'Director',
+    'actors' => 'Actors',
+    'rating' => 'Rating',
+    'plot' => 'Plot',
+    'detail_not_found' => 'Movie detail not found or API error.',
+    'detail_error' => 'An error occurred while fetching movie details.',
 ];

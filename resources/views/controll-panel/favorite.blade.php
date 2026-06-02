@@ -102,7 +102,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Detail Film</h5>
+                    <h5 class="modal-title">{{ __('messages.movie_detail') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -110,12 +110,13 @@
                 <div class="modal-body">
                     <div id="movie-detail-content" class="text-center">
                         <div class="spinner-border text-primary" role="status">
-                            <span class="sr-only">Loading...</span>
+                            <span class="sr-only">{{ __('messages.loading') }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer bg-whitesmoke br">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary"
+                        data-dismiss="modal">{{ __('messages.close') }}</button>
                 </div>
             </div>
         </div>
@@ -125,8 +126,15 @@
 
     <script>
         const appLocales = {
-            confirmDeleteFavorite: "{{ __('messages.confirm_delete_favorite') }}",
-            errorDeleteFavorite: "{{ __('messages.error_delete_favorite') }}"
+            confirmDeleteFavorite: "{{ __('messages.confirm_delete_favorite') ?? 'Are you sure?' }}",
+            errorDeleteFavorite: "{{ __('messages.error_delete_favorite') ?? 'Error deleting' }}",
+            genre: "{{ __('messages.genre') ?? 'Genre' }}",
+            director: "{{ __('messages.director') ?? 'Director' }}",
+            actors: "{{ __('messages.actors') ?? 'Actors' }}",
+            rating: "{{ __('messages.rating') ?? 'Rating' }}",
+            plot: "{{ __('messages.plot') ?? 'Plot' }}",
+            detailNotFound: "{{ __('messages.detail_not_found') ?? 'Movie detail not found.' }}",
+            detailError: "{{ __('messages.detail_error') ?? 'Error fetching details.' }}"
         };
 
         $(document).ready(function() {
@@ -179,7 +187,7 @@
                 $('#movie-detail-content').html(`
                     <div class="text-center py-4">
                         <div class="spinner-border text-primary" role="status">
-                            <span class="sr-only">Loading...</span>
+                            <span class="sr-only">{{ __('messages.loading') }}</span>
                         </div>
                     </div>
                 `);
@@ -199,25 +207,25 @@
                                     </div>
                                     <div class="col-md-8">
                                         <h4>${response.Title} (${response.Year})</h4>
-                                        <p class="mb-1"><strong><i class="fas fa-tags"></i> Genre:</strong> ${response.Genre}</p>
-                                        <p class="mb-1"><strong><i class="fas fa-video"></i> Director:</strong> ${response.Director}</p>
-                                        <p class="mb-1"><strong><i class="fas fa-users"></i> Actors:</strong> ${response.Actors}</p>
-                                        <p class="mb-1"><strong><i class="fas fa-star text-warning"></i> Rating:</strong> ${response.imdbRating}</p>
+                                        <p class="mb-1"><strong><i class="fas fa-tags"></i> ${appLocales.genre}:</strong> ${response.Genre}</p>
+                                        <p class="mb-1"><strong><i class="fas fa-video"></i> ${appLocales.director}:</strong> ${response.Director}</p>
+                                        <p class="mb-1"><strong><i class="fas fa-users"></i> ${appLocales.actors}:</strong> ${response.Actors}</p>
+                                        <p class="mb-1"><strong><i class="fas fa-star text-warning"></i> ${appLocales.rating}:</strong> ${response.imdbRating}</p>
                                         <hr>
-                                        <p><strong>Plot:</strong><br>${response.Plot}</p>
+                                        <p><strong>${appLocales.plot}:</strong><br>${response.Plot}</p>
                                     </div>
                                 </div>
                             `;
                             $('#movie-detail-content').html(html);
                         } else {
                             $('#movie-detail-content').html(
-                                `<div class="alert alert-danger">Film tidak ditemukan atau API error.</div>`
+                                `<div class="alert alert-danger">${appLocales.detailNotFound}</div>`
                                 );
                         }
                     },
                     error: function(xhr) {
                         $('#movie-detail-content').html(
-                            `<div class="alert alert-danger">Terjadi kesalahan saat mengambil detail film.</div>`
+                            `<div class="alert alert-danger">${appLocales.detailError}</div>`
                             );
                     }
                 });

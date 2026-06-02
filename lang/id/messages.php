@@ -62,4 +62,13 @@ return [
     'email_exists' => 'Email tidak terdaftar',
     'email_unique' => 'Email sudah terdaftar',
     'password_required' => 'Password wajib diisi',
+    'movie_detail' => 'Detail Film',
+    'close' => 'Tutup',
+    'genre' => 'Genre',
+    'director' => 'Sutradara',
+    'actors' => 'Aktor',
+    'rating' => 'Peringkat',
+    'plot' => 'Sinopsis',
+    'detail_not_found' => 'Detail film tidak ditemukan atau terjadi kesalahan API.',
+    'detail_error' => 'Terjadi kesalahan saat mengambil detail film.',
 ];
