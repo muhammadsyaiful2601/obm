@@ -1,11 +1,26 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
+        @auth
+            @php
+                $fullName = Auth::user()->name;
+                $words = explode(' ', trim($fullName));
+                $initials = '';
+                foreach ($words as $word) {
+                    if (!empty($word)) {
+                        $initials .= strtoupper($word[0]);
+                    }
+                }
+            @endphp
+        @endauth
+
         <div class="sidebar-brand">
-            <a href="{{ route('dashboard') }}">Muhammad Syaiful</a>
+            <a href="{{ route('dashboard') }}">{{ Auth::check() ? $fullName : 'Guest' }}</a>
         </div>
+
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{{ route('dashboard') }}">MS</a>
+            <a href="{{ route('dashboard') }}">{{ Auth::check() ? $initials : 'G' }}</a>
         </div>
+
         <ul class="sidebar-menu">
             <li class="menu-header">{{ __('messages.pages') }}</li>
 

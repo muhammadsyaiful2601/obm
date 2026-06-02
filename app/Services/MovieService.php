@@ -38,11 +38,10 @@ class MovieService
                     'error' => null,
                 ];
             }
-
             return [
                 'movies' => [],
                 'total' => 0,
-                'error' => $data['Error'] ?? trans('messages.movie_not_found'),
+                'error' => trans('messages.movie_not_found'),
             ];
         } catch (\Exception $e) {
             Log::error('OMDB API Error: ' . $e->getMessage());
@@ -62,11 +61,18 @@ class MovieService
                 'query' => [
                     'i' => $imdbId,
                     'apikey' => $this->apiKey,
-                    'plot' => 'full' // Mengambil plot/sinopsis secara penuh
+                    'plot' => 'full'
                 ],
             ]);
 
-            return json_decode($response->getBody(), true);
+            $data = json_decode($response->getBody(), true);
+
+            // PERBAIKAN DI SINI: Lakukan pengecekan yang sama untuk detail film
+            if (isset($data['Response']) && $data['Response'] === 'False') {
+                $data['Error'] = trans('messages.detail_not_found');
+            }
+
+            return $data;
         } catch (\Exception $e) {
             Log::error('OMDB API Error Detail: ' . $e->getMessage());
 

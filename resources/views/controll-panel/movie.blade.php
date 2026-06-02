@@ -116,26 +116,54 @@
 
     <script>
         const appLocales = {
-            movieNotFound: "{{ __('messages.movie_not_found') ?? 'Movie not found' }}",
-            apiError: "{{ __('messages.api_error') ?? 'API Error' }}",
-            errorSearchFilm: "{{ __('messages.error_search_film') ?? 'Error searching' }}",
-            genre: "{{ __('messages.genre') ?? 'Genre' }}",
-            director: "{{ __('messages.director') ?? 'Director' }}",
-            actors: "{{ __('messages.actors') ?? 'Actors' }}",
-            rating: "{{ __('messages.rating') ?? 'Rating' }}",
-            plot: "{{ __('messages.plot') ?? 'Plot' }}",
-            detailNotFound: "{{ __('messages.detail_not_found') ?? 'Movie detail not found.' }}",
-            detailError: "{{ __('messages.detail_error') ?? 'Error fetching details.' }}"
+            movieNotFound: "{{ Lang::has('messages.movie_not_found') ? __('messages.movie_not_found') : 'Movie not found' }}",
+            apiError: "{{ Lang::has('messages.api_error') ? __('messages.api_error') : 'API Error' }}",
+            errorSearchFilm: "{{ Lang::has('messages.error_search_film') ? __('messages.error_search_film') : 'Error searching' }}",
+            genre: "{{ Lang::has('messages.genre') ? __('messages.genre') : 'Genre' }}",
+            director: "{{ Lang::has('messages.director') ? __('messages.director') : 'Director' }}",
+            actors: "{{ Lang::has('messages.actors') ? __('messages.actors') : 'Actors' }}",
+            rating: "{{ Lang::has('messages.rating') ? __('messages.rating') : 'Rating' }}",
+            plot: "{{ Lang::has('messages.plot') ? __('messages.plot') : 'Plot' }}",
+            detailNotFound: "{{ Lang::has('messages.detail_not_found') ? __('messages.detail_not_found') : 'Movie detail not found.' }}",
+            detailError: "{{ Lang::has('messages.detail_error') ? __('messages.detail_error') : 'Error fetching details.' }}"
         };
 
         $(document).ready(function() {
-            // FITUR STORAGE SESSION: Memeriksa apakah ada histori pencarian sebelumnya saat halaman dimuat
+            // Fungsi untuk memeriksa database dan menyesuaikan warna tombol love
+            function syncFavorites() {
+                $.ajax({
+                    url: "{{ route('favorite.list') }}",
+                    type: "GET",
+                    success: function(response) {
+                        if (response.favorites) {
+                            let favIds = response.favorites.map(f => f.imdb_id);
+
+                            $('.add-favorite').each(function() {
+                                let id = $(this).data('id');
+                                if (favIds.includes(id)) {
+                                    $(this).removeClass('btn-danger').addClass('btn-success');
+                                } else {
+                                    $(this).removeClass('btn-success').addClass('btn-danger');
+                                }
+                            });
+
+                            if ($('#search-input').val().trim() !== '') {
+                                sessionStorage.setItem('movieSearchResults', $('#movie-container')
+                                    .html());
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Memeriksa histori pencarian sebelumnya saat halaman dimuat
             let savedQuery = sessionStorage.getItem('movieSearchQuery');
             let savedResults = sessionStorage.getItem('movieSearchResults');
 
             if (savedQuery && savedResults) {
                 $('#search-input').val(savedQuery);
                 $('#movie-container').html(savedResults);
+                syncFavorites();
             }
 
             // Pencarian Film
@@ -143,7 +171,6 @@
                 e.preventDefault();
                 let query = $('#search-input').val().trim();
 
-                // Jika input kosong, tampilkan instruksi awal dan hapus session
                 if (query === '') {
                     let emptyRowHtml = `
                         <tr id="empty-row">
@@ -173,12 +200,12 @@
                     success: function(response) {
                         $('#loader').hide();
 
+                        // Mengubah text-muted menjadi text-danger agar berwarna merah
                         if (response.error) {
                             let errorHtml =
-                                `<tr><td colspan="5" class="text-center text-danger py-4">${response.error}</td></tr>`;
+                                `<tr><td colspan="5" class="text-center text-danger py-4">${appLocales.movieNotFound}</td></tr>`;
                             $('#movie-container').html(errorHtml);
 
-                            // Simpan status error ke session
                             sessionStorage.setItem('movieSearchQuery', query);
                             sessionStorage.setItem('movieSearchResults', errorHtml);
                             return;
@@ -209,15 +236,16 @@
                             });
                             $('#movie-container').html(rows);
 
-                            // Simpan hasil pencarian berhasil ke session
                             sessionStorage.setItem('movieSearchQuery', query);
                             sessionStorage.setItem('movieSearchResults', rows);
+
+                            syncFavorites();
                         } else {
+                            // Mengubah text-muted menjadi text-danger agar berwarna merah
                             let notFoundHtml =
-                                `<tr><td colspan="5" class="text-center text-muted py-4">${appLocales.movieNotFound}</td></tr>`;
+                                `<tr><td colspan="5" class="text-center text-danger py-4">${appLocales.movieNotFound}</td></tr>`;
                             $('#movie-container').html(notFoundHtml);
 
-                            // Simpan status tidak ditemukan ke session
                             sessionStorage.setItem('movieSearchQuery', query);
                             sessionStorage.setItem('movieSearchResults', notFoundHtml);
                         }
@@ -256,6 +284,11 @@
                         } else {
                             btn.removeClass('btn-success').addClass('btn-danger');
                             alert(response.message);
+                        }
+
+                        if ($('#search-input').val().trim() !== '') {
+                            sessionStorage.setItem('movieSearchResults', $('#movie-container')
+                                .html());
                         }
                     },
                     error: function(xhr) {

@@ -60,12 +60,8 @@ return [
     'email_exists' => 'Email not registered',
     'email_unique' => 'Email already exists',
     'password_required' => 'Password is required',
-
-    // Teks tambahan yang dibutuhkan untuk pencarian dan JavaScript
     'movie_not_found' => 'Movie not found.',
     'api_error' => 'A system error occurred or API connection lost.',
-
-    // Tambahan untuk Modal Detail Film
     'movie_detail' => 'Movie Detail',
     'close' => 'Close',
     'genre' => 'Genre',

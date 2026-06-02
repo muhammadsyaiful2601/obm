@@ -17,6 +17,7 @@
 <script src="{{ asset('assets/js/stisla.js') }}"></script>
 <script src="{{ asset('assets/js/scripts.js') }}"></script>
 <script src="{{ asset('assets/js/custom.js') }}"></script>
+<script src="{{ asset('assets/js/sidebar-fix.js') }}"></script>
 
 <script>
     document.getElementById('years').textContent = new Date().getFullYear();

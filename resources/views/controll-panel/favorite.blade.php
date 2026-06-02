@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{ asset('assets/modules/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/sidebar-fix.css') }}">
 </head>
 
 <body>
@@ -220,13 +222,13 @@
                         } else {
                             $('#movie-detail-content').html(
                                 `<div class="alert alert-danger">${appLocales.detailNotFound}</div>`
-                                );
+                            );
                         }
                     },
                     error: function(xhr) {
                         $('#movie-detail-content').html(
                             `<div class="alert alert-danger">${appLocales.detailError}</div>`
-                            );
+                        );
                     }
                 });
             });
