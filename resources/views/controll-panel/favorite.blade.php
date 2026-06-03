@@ -59,7 +59,8 @@
                                                                     class="img-thumbnail shadow-sm">
                                                             </td>
                                                             <td class="align-middle font-weight-bold">
-                                                                {{ $favorite->title }}</td>
+                                                                {{ $favorite->title }}
+                                                            </td>
                                                             <td class="align-middle">{{ $favorite->year ?? '-' }}</td>
                                                             <td class="align-middle">
                                                                 <span
@@ -139,9 +140,9 @@
             detailError: "{{ __('messages.detail_error') ?? 'Error fetching details.' }}"
         };
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Hapus Favorit
-            $(document).on('click', '.remove-favorite', function(e) {
+            $(document).on('click', '.remove-favorite', function (e) {
                 e.preventDefault();
                 let btn = $(this);
                 let imdbId = btn.data('id');
@@ -162,17 +163,17 @@
                         title: '',
                         _token: "{{ csrf_token() }}"
                     },
-                    success: function(response) {
-                        row.fadeOut(300, function() {
+                    success: function (response) {
+                        row.fadeOut(300, function () {
                             $(this).remove();
                             if ($('table tbody tr').length === 0) {
-                                setTimeout(function() {
+                                setTimeout(function () {
                                     location.reload();
                                 }, 500);
                             }
                         });
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         alert(appLocales.errorDeleteFavorite);
                         btn.prop('disabled', false);
                         btn.html('<i class="fas fa-trash"></i>');
@@ -181,7 +182,7 @@
             });
 
             // Tampilkan Detail
-            $(document).on('click', '.movie-detail', function(e) {
+            $(document).on('click', '.movie-detail', function (e) {
                 e.preventDefault();
                 let imdbId = $(this).data('id');
 
@@ -197,7 +198,7 @@
                 $.ajax({
                     url: `/controll-panel/movies/detail/${imdbId}`,
                     type: "GET",
-                    success: function(response) {
+                    success: function (response) {
                         if (response.Response === "True" || response.Title) {
                             let poster = (response.Poster && response.Poster !== 'N/A') ?
                                 response.Poster :
@@ -225,7 +226,7 @@
                             );
                         }
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         $('#movie-detail-content').html(
                             `<div class="alert alert-danger">${appLocales.detailError}</div>`
                         );

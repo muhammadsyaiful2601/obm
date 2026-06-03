@@ -185,6 +185,7 @@ $(function() {
       body.removeClass('search-show search-gone');
       if(body.hasClass('sidebar-mini')) {
         toggle_sidebar_mini(false);
+        setTimeout(function() { sidebar_dropdown(); }, 550);
       }else{
         toggle_sidebar_mini(true);
       }

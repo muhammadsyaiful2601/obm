@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{ asset('assets/modules/fontawesome/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/sidebar-fix.css') }}">
+
 </head>
 
 <body>
@@ -200,7 +202,7 @@
                     success: function(response) {
                         $('#loader').hide();
 
-                        // Mengubah text-muted menjadi text-danger agar berwarna merah
+                        // Teks error ketika tidak ada film yang di temukan
                         if (response.error) {
                             let errorHtml =
                                 `<tr><td colspan="5" class="text-center text-danger py-4">${appLocales.movieNotFound}</td></tr>`;
